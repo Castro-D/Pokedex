@@ -10,3 +10,8 @@ fetch('https://pokeapi.co/api/v2/pokemon/')
         };
     });
 
+$frames.forEach(function($frame){
+    $frame.onclick = function(){
+        console.log('Info de pokemon relevante');
+    };
+});
