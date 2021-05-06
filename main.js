@@ -1,5 +1,7 @@
 const $frames = document.querySelectorAll('.frame');
 const POKEMONSPERPAGE = 20;
+let modal = document.querySelector('#my-modal');
+let span = document.querySelector('.close');
 
 fetch('https://pokeapi.co/api/v2/pokemon/')
     .then(response => response.json())
@@ -12,6 +14,16 @@ fetch('https://pokeapi.co/api/v2/pokemon/')
 
 $frames.forEach(function($frame){
     $frame.onclick = function(){
-        console.log('Info de pokemon relevante');
+        modal.style.display = "block";
     };
 });
+
+span.onclick = function() {
+    modal.style.display = "none";
+};
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    };
+  };
