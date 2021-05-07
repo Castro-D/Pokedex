@@ -24,9 +24,18 @@ $frames.forEach(function($frame){
             .then(response => response.json())
             .then(data => {
                 const pokemonImageSource = data.sprites['front_default'];
+                const pokemonHeight = document.querySelector('#pokemon-height');
+                const pokemonType = document.querySelector('#pokemon-type');
+                const pokemonWeight = document.querySelector('#pokemon-weight');
+                const pokemonAbilities = document.querySelector('#pokemon-abilities');
+
+                pokemonNode.src = '';
                 pokemonNode.src = pokemonImageSource;
-                
-                // let pokemonImage = document.createElement()
+
+                pokemonHeight.innerHTML = `Height: ${data.height}`;
+                pokemonType.innerHTML = `Type: ${data.types['0']['type'].name}`;
+                pokemonWeight.innerHTML = `Weight: ${data.weight}`;
+                pokemonAbilities.innerHTML = `Abilities: ${data['abilities']['0'].ability.name}, ${data['abilities']['1'].ability.name}`;
             });
     };
 });
