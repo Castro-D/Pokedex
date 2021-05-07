@@ -2,6 +2,7 @@ const $frames = document.querySelectorAll('.frame');
 const POKEMONSPERPAGE = 20;
 let modal = document.querySelector('#my-modal');
 let span = document.querySelector('.close');
+let modalHeader = document.querySelector('.modal-header');
 
 fetch('https://pokeapi.co/api/v2/pokemon/')
     .then(response => response.json())
@@ -13,8 +14,9 @@ fetch('https://pokeapi.co/api/v2/pokemon/')
     });
 
 $frames.forEach(function($frame){
-    $frame.onclick = function(){
+    $frame.onclick = function(e){
         modal.style.display = "block";
+        modalHeader.textContent = e.target.innerHTML;
     };
 });
 
