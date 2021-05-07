@@ -17,11 +17,14 @@
 }
 
 .modal-content {
+    position: relative;
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
     width: 50%;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
 }
 
 .close {
@@ -36,3 +39,16 @@
   color: #000;
   cursor: pointer;
 }
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+.modal-body {padding: 2px 16px;}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+  }
