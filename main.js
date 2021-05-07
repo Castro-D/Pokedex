@@ -3,6 +3,8 @@ const POKEMONSPERPAGE = 20;
 let modal = document.querySelector('#my-modal');
 let span = document.querySelector('.close');
 let modalHeader = document.querySelector('.modal-header');
+let modalBody = document.querySelector('.modal-body');
+let pokemonNode = document.querySelector('#pokemon-image')
 
 fetch('https://pokeapi.co/api/v2/pokemon/')
     .then(response => response.json())
@@ -16,7 +18,16 @@ fetch('https://pokeapi.co/api/v2/pokemon/')
 $frames.forEach(function($frame){
     $frame.onclick = function(e){
         modal.style.display = "block";
-        modalHeader.textContent = e.target.innerHTML;
+        const pokemon = e.target.innerHTML;
+        modalHeader.textContent = pokemon;
+        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+            .then(response => response.json())
+            .then(data => {
+                const pokemonImageSource = data.sprites['front_default'];
+                pokemonNode.src = pokemonImageSource;
+                
+                // let pokemonImage = document.createElement()
+            });
     };
 });
 
