@@ -4,7 +4,7 @@ let modal = document.querySelector('#my-modal');
 let span = document.querySelector('.close');
 let modalHeader = document.querySelector('.modal-header');
 let modalBody = document.querySelector('.modal-body');
-let pokemonNode = document.querySelector('#pokemon-image')
+let pokemonNode = document.querySelector('#pokemon-image');
 
 fetch('https://pokeapi.co/api/v2/pokemon/')
     .then(response => response.json())
@@ -27,7 +27,7 @@ $frames.forEach(function($frame){
                 const pokemonHeight = document.querySelector('#pokemon-height');
                 const pokemonType = document.querySelector('#pokemon-type');
                 const pokemonWeight = document.querySelector('#pokemon-weight');
-                const pokemonAbilities = document.querySelector('#pokemon-abilities');
+                let abilitiesText = document.querySelector('#abilities-text');
 
                 pokemonNode.src = '';
                 pokemonNode.src = pokemonImageSource;
@@ -35,8 +35,13 @@ $frames.forEach(function($frame){
                 pokemonHeight.innerHTML = `Height: ${data.height}`;
                 pokemonType.innerHTML = `Type: ${data.types['0']['type'].name}`;
                 pokemonWeight.innerHTML = `Weight: ${data.weight}`;
-                pokemonAbilities.innerHTML = `Abilities: ${data['abilities']['0'].ability.name}, ${data['abilities']['1'].ability.name}`;
-            });
+
+                abilitiesText.textContent = ``;
+                data['abilities'].forEach(function (ability){
+                    abilitiesText.textContent += `${ability['ability'].name}, `;
+                });
+            })
+            
     };
 });
 
