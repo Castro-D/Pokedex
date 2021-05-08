@@ -5,6 +5,7 @@ let span = document.querySelector('.close');
 let modalHeader = document.querySelector('.modal-header');
 let modalBody = document.querySelector('.modal-body');
 let pokemonNode = document.querySelector('#pokemon-image');
+let listOFApiUrl = [];
 
 fetch('https://pokeapi.co/api/v2/pokemon/')
     .then(response => response.json())
@@ -40,8 +41,7 @@ $frames.forEach(function($frame){
                 data['abilities'].forEach(function (ability){
                     abilitiesText.textContent += `${ability['ability'].name}, `;
                 });
-            })
-            
+             });           
     };
 });
 
@@ -54,3 +54,12 @@ window.onclick = function(event) {
       modal.style.display = "none";
     };
 };
+
+function getListOfApiUrl() { 
+    const apiOffset = 20;
+    const apiOffsetEnd = 1100;
+    for (let i=0; i <= apiOffsetEnd; i + apiOffset) {
+        listOFApiUrl.push(`https://pokeapi.co/api/v2/pokemon?offset=${i}&limit=20`)
+    }
+    return listOFApiUrl;
+}
