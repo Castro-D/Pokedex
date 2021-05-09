@@ -8,6 +8,8 @@ let modalBody = document.querySelector('.modal-body');
 let pokemonNode = document.querySelector('#pokemon-image');
 let listOfApiUrl = [];
 let container = document.querySelector('#pokemon-container');
+let TOTALPOKEMONS = 1118;
+let paginationElement = document.querySelector('#pagination');
 
 $frames.forEach(function($frame){
     $frame.onclick = function(e){
@@ -59,6 +61,7 @@ function getListOfApiUrl() {
 getListOfApiUrl();
 
 function displayPokemons(page) {
+    resetTextNodes()
     page--;
 
     const apiResponse = fetchApi(listOfApiUrl, page);
@@ -74,4 +77,31 @@ function fetchApi (url, page) {
     return fetch(`${url[page]}`).then(response => response.json());
 }
 
+function setUpPagination(pokemons, pokemonsperpage, wrapper){
+    let pageCount = Math.ceil(pokemons / pokemonsperpage)
+    for (let i = 1; i < pageCount + 1; i++) {
+		let btn = paginationButton(i);
+		wrapper.appendChild(btn);
+	}
+}
+
+function paginationButton(page){
+    let button = document.createElement('button');
+    button.innerText = page;
+    button.addEventListener('click', function(){
+        CURRENTPAGE = page;
+        displayPokemons(CURRENTPAGE)     
+    })
+    
+    return button
+}
+
+function resetTextNodes(){
+    $frames.forEach(function ($frame){
+        $frame.textContent = '';
+        return;
+    })
+}
+
 displayPokemons(CURRENTPAGE)
+setUpPagination(TOTALPOKEMONS, POKEMONSPERPAGE, paginationElement)
