@@ -1,20 +1,13 @@
 const $frames = document.querySelectorAll('.frame');
-const POKEMONSPERPAGE = 20;
+let POKEMONSPERPAGE = 20;
+let CURRENTPAGE = 1;
 let modal = document.querySelector('#my-modal');
 let span = document.querySelector('.close');
 let modalHeader = document.querySelector('.modal-header');
 let modalBody = document.querySelector('.modal-body');
 let pokemonNode = document.querySelector('#pokemon-image');
 let listOfApiUrl = [];
-
-fetch('https://pokeapi.co/api/v2/pokemon/')
-    .then(response => response.json())
-    .then(data => {
-        for (let i=0; i<20; i++) {
-            let content = document.createTextNode(`${data['results'][i].name}`);
-            $frames[i].appendChild(content);
-        };
-    });
+let container = document.querySelector('#pokemon-container');
 
 $frames.forEach(function($frame){
     $frame.onclick = function(e){
@@ -64,4 +57,21 @@ function getListOfApiUrl() {
     return ''
  }
 getListOfApiUrl();
- 
+
+function displayPokemons(page) {
+    page--;
+
+    const apiResponse = fetchApi(listOfApiUrl, page);
+        apiResponse.then((data) => {
+            for (let i=0; i<POKEMONSPERPAGE; i++) {
+                let content = document.createTextNode(`${data['results'][i].name}`);
+                $frames[i].appendChild(content);
+            };
+        })
+}
+
+function fetchApi (url, page) {
+    return fetch(`${url[page]}`).then(response => response.json());
+}
+
+displayPokemons(CURRENTPAGE)
