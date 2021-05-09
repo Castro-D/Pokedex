@@ -19,13 +19,13 @@ $frames.forEach(function($frame){
         fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
             .then(response => response.json())
             .then(data => {
+                pokemonNode.src = '';
                 const pokemonImageSource = data.sprites['front_default'];
                 const pokemonHeight = document.querySelector('#pokemon-height');
                 const pokemonType = document.querySelector('#pokemon-type');
                 const pokemonWeight = document.querySelector('#pokemon-weight');
                 let abilitiesText = document.querySelector('#abilities-text');
 
-                pokemonNode.src = '';
                 pokemonNode.src = pokemonImageSource;
 
                 pokemonHeight.innerHTML = `Height: ${data.height}`;
