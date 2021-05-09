@@ -35,8 +35,8 @@ $frames.forEach(function($frame){
                 abilitiesText.textContent = ``;
                 data['abilities'].forEach(function (ability){
                     abilitiesText.textContent += `${ability['ability'].name}, `;
-                });
-             });           
+                });      
+            });           
     };
 });
 
