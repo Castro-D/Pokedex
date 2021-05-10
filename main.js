@@ -90,9 +90,13 @@ function setUpPagination(pokemons, pokemonsperpage, wrapper){
 function paginationButton(page){
     let button = document.createElement('button');
     button.innerText = page;
+    if (CURRENTPAGE == page) button.classList.add('active');
     button.addEventListener('click', function(){
         CURRENTPAGE = page;
-        displayPokemons(CURRENTPAGE)     
+        displayPokemons(CURRENTPAGE);
+        let current_btn = document.querySelector('.pagenumbers button.active');
+        current_btn.classList.remove('active');
+        button.classList.add('active');     
     })
     
     return button
