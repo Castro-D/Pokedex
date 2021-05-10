@@ -13,6 +13,7 @@
     background-color: #0077b6;
     cursor: pointer;
     font-weight: bold;
+    border-radius: 10%;
 }
 
 .title {
@@ -78,4 +79,30 @@ body{
 html { 
     background: url('https://i.pinimg.com/originals/26/b5/55/26b5551ba10f013a335e91b98f530d51.png') no-repeat center center fixed; 
     background-size: cover;
+}
+
+.pagenumbers button {
+    width: 7%;
+    height: 7%;
+    border: none;
+    cursor: pointer;
+
+	  background-color: #44AAEE;
+
+    margin: 5px;
+    transition: 0.4s;
+
+    color: #FFF;
+    font-size: 18px;
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pagenumbers button:hover {
+	  background-color: #44EEAA;
+}
+
+.pagenumbers button.active {
+    background-color: #44EEAA;
+    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.2);
 }
