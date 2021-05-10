@@ -1,3 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
 .frame {
     height: 100px;
 }
@@ -52,3 +57,8 @@
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
   }
+
+html { 
+    background: url('https://i.pinimg.com/originals/26/b5/55/26b5551ba10f013a335e91b98f530d51.png') no-repeat center center fixed; 
+    background-size: cover;
+}
