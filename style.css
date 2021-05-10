@@ -47,9 +47,10 @@ body{
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    max-width: 300px;
     animation-name: animatetop;
     animation-duration: 0.4s;
+    text-align: center;
 }
 
 .close {
@@ -67,8 +68,9 @@ body{
 
 .modal-header {
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: #0077b6;
     color: white;
+    font-weight: bold;
   }
 
 .modal-body {padding: 2px 16px;}
