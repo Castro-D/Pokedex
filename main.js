@@ -7,9 +7,22 @@ let modalHeader = document.querySelector('.modal-header');
 let modalBody = document.querySelector('.modal-body');
 let pokemonNode = document.querySelector('#pokemon-image');
 let listOfApiUrl = [];
-let container = document.querySelector('#pokemon-container');
 let TOTALPOKEMONS = 1118;
 let paginationElement = document.querySelector('#pagination');
+
+span.onclick = function() {
+    modal.style.display = "none";
+};
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    };
+};
+
+getListOfApiUrl();
+displayPokemons(CURRENTPAGE)
+setUpPagination(TOTALPOKEMONS, POKEMONSPERPAGE, paginationElement)
 
 $frames.forEach(function($frame){
     $frame.onclick = function(e){
@@ -40,16 +53,6 @@ $frames.forEach(function($frame){
     };
 });
 
-span.onclick = function() {
-    modal.style.display = "none";
-};
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    };
-};
-
 function getListOfApiUrl() { 
     const apiOffset = 20;
     const apiOffsetEnd = 1100;
@@ -58,7 +61,6 @@ function getListOfApiUrl() {
     }
     return ''
  }
-getListOfApiUrl();
 
 function displayPokemons(page) {
     resetTextNodes()
@@ -102,6 +104,3 @@ function resetTextNodes(){
         return;
     })
 }
-
-displayPokemons(CURRENTPAGE)
-setUpPagination(TOTALPOKEMONS, POKEMONSPERPAGE, paginationElement)
