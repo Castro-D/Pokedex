@@ -81,7 +81,7 @@ body{
   }
 
 html { 
-    background: url('https://i.pinimg.com/originals/26/b5/55/26b5551ba10f013a335e91b98f530d51.png') no-repeat center center fixed; 
+    background: url('./background-image.png') no-repeat center center fixed; 
     background-size: cover;
 }
 
