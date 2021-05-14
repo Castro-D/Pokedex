@@ -91,12 +91,13 @@ function showPokemonsInfo() {
     let abilitiesText = document.querySelector('#abilities-text');
 
     $frames.forEach(function($frame){
-        $frame.addEventListener('click', (e) => {  
-            showModal(); 
-            pokemonImage.src = '';
-            abilitiesText.textContent = ``;
+        $frame.addEventListener('click', (e) => { 
             const pokemon = e.target.innerHTML;
-            modalHeader.textContent = pokemon;
+
+            showModal(); 
+            resetPokemonInfo(pokemonImage, abilitiesText, pokemonHeight, pokemonType, pokemonWeight);  
+            displayPokemonHeader(modalHeader, pokemon);
+
             pokemonsResponse = getPokemonData(pokemon)
                 .then(data => {
                     pokemonImage.src = data.sprites['front_default'];
@@ -119,4 +120,16 @@ function showModal () {
 function getPokemonData (pokemon) {
     return fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
         .then(response => response.json())
+}
+
+function resetPokemonInfo (pokemonImage, abilitiesText, pokemonHeight, pokemonType, pokemonWeight) {
+    pokemonImage.src = '';
+    abilitiesText.textContent = ``;
+    pokemonHeight.textContent = '';
+    pokemonType.textContent = '';
+    pokemonWeight.textContent = '';
+}
+
+function displayPokemonHeader (modalHeader, pokemon) {
+    modalHeader.textContent = pokemon;
 }
