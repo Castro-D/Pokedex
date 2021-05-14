@@ -2,25 +2,13 @@ const $frames = document.querySelectorAll('.frame');
 let POKEMONSPERPAGE = 20;
 let CURRENTPAGE = 1;
 let modal = document.querySelector('#my-modal');
-let span = document.querySelector('.close');
 let modalHeader = document.querySelector('.modal-header');
 let modalBody = document.querySelector('.modal-body');
 let pokemonNode = document.querySelector('#pokemon-image');
-let listOfApiUrl = [];
 let TOTALPOKEMONS = 1118;
 let paginationElement = document.querySelector('#pagination');
 
-span.onclick = function() {
-    modal.style.display = "none";
-};
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    };
-};
-
-getListOfApiUrl();
+closeModal()
 displayPokemons(CURRENTPAGE)
 setUpPagination(TOTALPOKEMONS, POKEMONSPERPAGE, paginationElement)
 
@@ -53,16 +41,18 @@ $frames.forEach(function($frame){
     };
 });
 
-function getListOfApiUrl() { 
+function getListOfApiUrl() {
+    let listOfApiUrl = []; 
     const apiOffset = 20;
     const apiOffsetEnd = 1100;
     for (let i=0; i <= apiOffsetEnd; i += apiOffset) {
         listOfApiUrl.push(`https://pokeapi.co/api/v2/pokemon?offset=${i}&limit=20`)
     }
-    return ''
+    return listOfApiUrl;
  }
 
 function displayPokemons(page) {
+    let listOfApiUrl = getListOfApiUrl();
     resetTextNodes()
     page--;
 
@@ -107,4 +97,18 @@ function resetTextNodes(){
         $frame.textContent = '';
         return;
     })
+}
+
+function closeModal () {
+    let span = document.querySelector('.close');
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+    
+    window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        };
+    };
 }
