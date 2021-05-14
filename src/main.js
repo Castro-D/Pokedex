@@ -2,9 +2,6 @@ const $frames = document.querySelectorAll('.frame');
 let POKEMONSPERPAGE = 20;
 let CURRENTPAGE = 1;
 let modal = document.querySelector('#my-modal');
-let modalHeader = document.querySelector('.modal-header');
-let modalBody = document.querySelector('.modal-body');
-let pokemonNode = document.querySelector('#pokemon-image');
 let TOTALPOKEMONS = 1118;
 let paginationElement = document.querySelector('#pagination');
 
@@ -86,27 +83,27 @@ function closeModal () {
 }
 
 function showPokemonsInfo() {
+    let modalHeader = document.querySelector('.modal-header');
+    let pokemonImage = document.querySelector('#pokemon-image');
+    const pokemonHeight = document.querySelector('#pokemon-height');
+    const pokemonType = document.querySelector('#pokemon-type');
+    const pokemonWeight = document.querySelector('#pokemon-weight');
+    let abilitiesText = document.querySelector('#abilities-text');
+
     $frames.forEach(function($frame){
-        $frame.addEventListener('click', (e) => {
+        $frame.addEventListener('click', (e) => {  
             showModal(); 
+            pokemonImage.src = '';
+            abilitiesText.textContent = ``;
             const pokemon = e.target.innerHTML;
             modalHeader.textContent = pokemon;
             pokemonsResponse = getPokemonData(pokemon)
                 .then(data => {
-                    pokemonNode.src = '';
-                    const pokemonImageSource = data.sprites['front_default'];
-                    const pokemonHeight = document.querySelector('#pokemon-height');
-                    const pokemonType = document.querySelector('#pokemon-type');
-                    const pokemonWeight = document.querySelector('#pokemon-weight');
-                    let abilitiesText = document.querySelector('#abilities-text');
-    
-                    pokemonNode.src = pokemonImageSource;
-    
+                    pokemonImage.src = data.sprites['front_default'];
                     pokemonHeight.innerHTML = `Height: ${data.height}`;
                     pokemonType.innerHTML = `Type: ${data.types['0']['type'].name}`;
                     pokemonWeight.innerHTML = `Weight: ${data.weight}`;
     
-                    abilitiesText.textContent = ``;
                     data['abilities'].forEach(function (ability){
                         abilitiesText.textContent += `${ability['ability'].name}, `;
                     });      
