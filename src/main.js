@@ -1,24 +1,19 @@
 const $frames = document.querySelectorAll('.frame');
-let POKEMONSPERPAGE = 20;
+const POKEMONSPERPAGE = 20;
 let CURRENTPAGE = 1;
-let modal = document.querySelector('#my-modal');
-let TOTALPOKEMONS = 1118;
-let paginationElement = document.querySelector('#pagination');
-
-closeModal()
-displayPokemons(CURRENTPAGE)
-setUpPagination(TOTALPOKEMONS, POKEMONSPERPAGE, paginationElement)
-showPokemonsInfo();
+const modal = document.querySelector('#my-modal');
+const TOTALPOKEMONS = 1118;
+const paginationElement = document.querySelector('#pagination');
 
 function getListOfApiUrl() {
-    let listOfApiUrl = []; 
-    const apiOffset = 20;
-    const apiOffsetEnd = 1100;
-    for (let i=0; i <= apiOffsetEnd; i += apiOffset) {
-        listOfApiUrl.push(`https://pokeapi.co/api/v2/pokemon?offset=${i}&limit=20`)
-    }
-    return listOfApiUrl;
- }
+  const listOfApiUrl = [];
+  const apiOffset = 20;
+  const apiOffsetEnd = 1100;
+  for (let i = 0; i <= apiOffsetEnd; i += apiOffset) {
+    listOfApiUrl.push(`https://pokeapi.co/api/v2/pokemon?offset=${i}&limit=20`);
+  }
+  return listOfApiUrl;
+}
 
 function displayPokemons(page) {
     let listOfApiUrl = getListOfApiUrl();
@@ -133,3 +128,8 @@ function resetPokemonInfo (pokemonImage, abilitiesText, pokemonHeight, pokemonTy
 function displayPokemonHeader (modalHeader, pokemon) {
     modalHeader.textContent = pokemon;
 }
+
+closeModal();
+displayPokemons(CURRENTPAGE);
+setUpPagination(TOTALPOKEMONS, POKEMONSPERPAGE, paginationElement);
+showPokemonsInfo();
