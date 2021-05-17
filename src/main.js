@@ -2,71 +2,30 @@ const $frames = document.querySelectorAll('.frame');
 let POKEMONSPERPAGE = 20;
 let CURRENTPAGE = 1;
 let modal = document.querySelector('#my-modal');
-let span = document.querySelector('.close');
-let modalHeader = document.querySelector('.modal-header');
-let modalBody = document.querySelector('.modal-body');
-let pokemonNode = document.querySelector('#pokemon-image');
-let listOfApiUrl = [];
 let TOTALPOKEMONS = 1118;
 let paginationElement = document.querySelector('#pagination');
 
-span.onclick = function() {
-    modal.style.display = "none";
-};
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    };
-};
-
-getListOfApiUrl();
+closeModal()
 displayPokemons(CURRENTPAGE)
 setUpPagination(TOTALPOKEMONS, POKEMONSPERPAGE, paginationElement)
+showPokemonsInfo();
 
-$frames.forEach(function($frame){
-    $frame.onclick = function(e){
-        modal.style.display = "block";
-        const pokemon = e.target.innerHTML;
-        modalHeader.textContent = pokemon;
-        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-            .then(response => response.json())
-            .then(data => {
-                pokemonNode.src = '';
-                const pokemonImageSource = data.sprites['front_default'];
-                const pokemonHeight = document.querySelector('#pokemon-height');
-                const pokemonType = document.querySelector('#pokemon-type');
-                const pokemonWeight = document.querySelector('#pokemon-weight');
-                let abilitiesText = document.querySelector('#abilities-text');
-
-                pokemonNode.src = pokemonImageSource;
-
-                pokemonHeight.innerHTML = `Height: ${data.height}`;
-                pokemonType.innerHTML = `Type: ${data.types['0']['type'].name}`;
-                pokemonWeight.innerHTML = `Weight: ${data.weight}`;
-
-                abilitiesText.textContent = ``;
-                data['abilities'].forEach(function (ability){
-                    abilitiesText.textContent += `${ability['ability'].name}, `;
-                });      
-            });           
-    };
-});
-
-function getListOfApiUrl() { 
+function getListOfApiUrl() {
+    let listOfApiUrl = []; 
     const apiOffset = 20;
     const apiOffsetEnd = 1100;
     for (let i=0; i <= apiOffsetEnd; i += apiOffset) {
         listOfApiUrl.push(`https://pokeapi.co/api/v2/pokemon?offset=${i}&limit=20`)
     }
-    return ''
+    return listOfApiUrl;
  }
 
 function displayPokemons(page) {
+    let listOfApiUrl = getListOfApiUrl();
     resetTextNodes()
     page--;
 
-    const apiResponse = fetchApi(listOfApiUrl, page);
+    const apiResponse = fetchApiUrls(listOfApiUrl, page);
         apiResponse.then((data) => {
             for (let i=0; i<POKEMONSPERPAGE; i++) {
                 let content = document.createTextNode(`${data['results'][i].name}`);
@@ -75,7 +34,7 @@ function displayPokemons(page) {
         })
 }
 
-function fetchApi (url, page) {
+function fetchApiUrls (url, page) {
     return fetch(`${url[page]}`).then(response => response.json());
 }
 
@@ -107,4 +66,70 @@ function resetTextNodes(){
         $frame.textContent = '';
         return;
     })
+}
+
+function closeModal () {
+    let span = document.querySelector('.close');
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+    
+    window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        };
+    };
+}
+
+function showPokemonsInfo() {
+    let modalHeader = document.querySelector('.modal-header');
+    let pokemonImage = document.querySelector('#pokemon-image');
+    const pokemonHeight = document.querySelector('#pokemon-height');
+    const pokemonType = document.querySelector('#pokemon-type');
+    const pokemonWeight = document.querySelector('#pokemon-weight');
+    let abilitiesText = document.querySelector('#abilities-text');
+
+    $frames.forEach(function($frame){
+        $frame.addEventListener('click', (e) => { 
+            const pokemon = e.target.innerHTML;
+
+            showModal(); 
+            resetPokemonInfo(pokemonImage, abilitiesText, pokemonHeight, pokemonType, pokemonWeight);  
+            displayPokemonHeader(modalHeader, pokemon);
+
+            pokemonsResponse = getPokemonData(pokemon)
+                .then(data => {
+                    pokemonImage.src = data.sprites['front_default'];
+                    pokemonHeight.innerHTML = `Height: ${data.height}`;
+                    pokemonType.innerHTML = `Type: ${data.types['0']['type'].name}`;
+                    pokemonWeight.innerHTML = `Weight: ${data.weight}`;
+    
+                    data['abilities'].forEach(function (ability){
+                        abilitiesText.textContent += `${ability['ability'].name}, `;
+                    });      
+                });           
+        });
+    });
+}
+
+function showModal () {
+    modal.style.display = "block";
+}
+
+function getPokemonData (pokemon) {
+    return fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+        .then(response => response.json())
+}
+
+function resetPokemonInfo (pokemonImage, abilitiesText, pokemonHeight, pokemonType, pokemonWeight) {
+    pokemonImage.src = '';
+    abilitiesText.textContent = ``;
+    pokemonHeight.textContent = '';
+    pokemonType.textContent = '';
+    pokemonWeight.textContent = '';
+}
+
+function displayPokemonHeader (modalHeader, pokemon) {
+    modalHeader.textContent = pokemon;
 }
