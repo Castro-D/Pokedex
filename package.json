@@ -18,5 +18,8 @@
   "homepage": "https://github.com/Castro-D/Pokedex#readme",
   "dependencies": {
     "bootstrap": "^4.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.26.0"
   }
 }
