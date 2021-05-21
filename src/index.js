@@ -1,19 +1,22 @@
+/* eslint-disable import/extensions */
 import {
   displayPokemons,
   closeModal,
-  setUpPagination,
-  showPokemonsInfo,
-} from './ui';
+  obtainSelectedPokemon,
+  // setUpPagination,
+  // showPokemonsInfo,
+} from './ui.js';
 
-import { obtainPokemons } from './api';
+import { getPokemonData, obtainPokemons } from './api.js';
 
 let CURRENTPAGE = 1;
 
 function async initialize() {
-  displayPokemons(CURRENTPAGE, obtainPokemons);
+  displayPokemons(CURRENTPAGE, obtainPokemons());
   closeModal();
-  setUpPagination(); 
-  showPokemonsInfo();
+  // setUpPagination();
+  const data = await getPokemonData(obtainSelectedPokemon)
+  // showPokemonsInfo(data);
 }
 
 initialize();

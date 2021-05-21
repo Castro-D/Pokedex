@@ -1,5 +1,6 @@
 const $frames = document.querySelectorAll('.frame');
 const POKEMONSPERPAGE = 20;
+const modal = document.querySelector('#my-modal');
 
 function resetTextNodes() {
   $frames.forEach(($frame) => {
@@ -22,9 +23,13 @@ function paginationButton(page) {
   return button;
 }
 
-export default function displayPokemons(page, apiResponse) {
+export function obtainSelectedPokemon() {
+  $frames.forEach(($frame) => {
+    $frame.addEventListener('click', (e) => e.target.innerHTML);
+  });
+}
+export function displayPokemons(apiResponse) {
   resetTextNodes();
-  page -= 1;
   for (let i = 0; i < POKEMONSPERPAGE; i += 1) {
     const content = document.createTextNode(`${apiResponse[i]}`);
     $frames[i].appendChild(content);
@@ -37,4 +42,58 @@ export function setUpPagination(pokemons, pokemonsperpage, wrapper) {
     const btn = paginationButton(i);
     wrapper.appendChild(btn);
   }
+}
+
+export function closeModal() {
+  const span = document.querySelector('.close');
+
+  span.onclick = () => {
+    modal.style.display = 'none';
+  };
+
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+}
+
+function showModal() {
+  modal.style.display = 'block';
+}
+
+function resetPokemonInfo(pokemonImage, abilitiesText, pokemonHeight, pokemonType, pokemonWeight) {
+  pokemonImage.src = '';
+  abilitiesText.textContent = '';
+  pokemonHeight.textContent = '';
+  pokemonType.textContent = '';
+  pokemonWeight.textContent = '';
+}
+
+function displayPokemonHeader(modalHeader, pokemon) {
+  modalHeader.textContent = pokemon;
+}
+
+export function showPokemonsInfo(data) {
+  const modalHeader = document.querySelector('.modal-header');
+  const pokemonImage = document.querySelector('#pokemon-image');
+  const pokemonHeight = document.querySelector('#pokemon-height');
+  const pokemonType = document.querySelector('#pokemon-type');
+  const pokemonWeight = document.querySelector('#pokemon-weight');
+  const abilitiesText = document.querySelector('#abilities-text');
+
+  $frames.forEach(($frame) => {
+    $frame.addEventListener('click', () => {
+      showModal();
+      resetPokemonInfo(pokemonImage, abilitiesText, pokemonHeight, pokemonType, pokemonWeight);
+      displayPokemonHeader(modalHeader, pokemon);
+      pokemonImage.src = data.sprites.data.sprites.front_default;
+      pokemonHeight.innerHTML = `Height: ${data.height}`;
+      pokemonType.innerHTML = `Type: ${data.types['0'].type.name}`;
+      pokemonWeight.innerHTML = `Weight: ${data.weight}`;
+      data.abilities.forEach((ability) => {
+        abilitiesText.textContent += `${ability.ability.name}, `;
+      });
+    });
+  });
 }

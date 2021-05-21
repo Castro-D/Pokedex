@@ -23,3 +23,8 @@ export function obtainPokemons() {
   });
   return pokemons;
 }
+
+export function getPokemonData(pokemon) {
+  return fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+    .then((response) => response.json());
+}
