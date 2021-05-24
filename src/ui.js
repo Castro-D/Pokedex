@@ -1,11 +1,19 @@
 const $frames = document.querySelectorAll('.frame');
 const POKEMONSPERPAGE = 20;
 const modal = document.querySelector('#my-modal');
+let CURRENTPAGE = 1;
 
 function resetTextNodes() {
   $frames.forEach(($frame) => {
     $frame.textContent = '';
   });
+}
+export function displayPokemons(listOfPokemons) {
+  resetTextNodes();
+  for (let i = 0; i < POKEMONSPERPAGE; i += 1) {
+    const content = document.createTextNode(listOfPokemons[i]);
+    $frames[i].appendChild(content);
+  }
 }
 
 function paginationButton(page) {
@@ -28,16 +36,11 @@ export function obtainSelectedPokemon() {
     $frame.addEventListener('click', (e) => e.target.innerHTML);
   });
 }
-export function displayPokemons(apiResponse) {
-  resetTextNodes();
-  for (let i = 0; i < POKEMONSPERPAGE; i += 1) {
-    const content = document.createTextNode(`${apiResponse[i]}`);
-    $frames[i].appendChild(content);
-  }
-}
 
-export function setUpPagination(pokemons, pokemonsperpage, wrapper) {
-  const pageCount = Math.ceil(pokemons / pokemonsperpage);
+export function setUpPagination() {
+  const wrapper = document.querySelector('#pagination');
+  const pokemons = 1118;
+  const pageCount = Math.ceil(pokemons / POKEMONSPERPAGE);
   for (let i = 1; i < pageCount + 1; i += 1) {
     const btn = paginationButton(i);
     wrapper.appendChild(btn);

@@ -11,16 +11,15 @@ function getListOfApiUrl() {
 }
 
 export function fetchApiUrls(url, page) {
-  return fetch(`${url[page]}`).then((response) => response.json());
+  return fetch(url[page]).then((response) => response.json());
 }
 
-export function obtainPokemons() {
+export async function obtainPokemons() {
   const pokemons = [];
-  fetchApiUrls(getListOfApiUrl, FIRSTPAGE).then((r) => {
-    for (let i = 0; i < 20; i += 1) {
-      pokemons.push(r.results[i].name);
-    }
-  });
+  const data = await fetchApiUrls(getListOfApiUrl(), FIRSTPAGE);
+  for (let i = 0; i < 20; i += 1) {
+    pokemons.push(data.results[i].name);
+  }
   return pokemons;
 }
 

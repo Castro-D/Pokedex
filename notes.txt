@@ -7,3 +7,6 @@ entender mi codigo de nuevo....
 
 va a haber problemas cuando llamo display pokemons con otro numero de agina, hacerlo de alguna forma desde index
 el page-- en displaypokemons no va a hacer falta creo
+
+ahora si funcioina getlisturl, ver porque no devuele pokemones el fetch api  
+problemas en llamada de funciones en fetchapirul

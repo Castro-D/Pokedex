@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import {
   displayPokemons,
   closeModal,
@@ -9,13 +8,11 @@ import {
 
 import { getPokemonData, obtainPokemons } from './api.js';
 
-let CURRENTPAGE = 1;
-
-function async initialize() {
-  displayPokemons(CURRENTPAGE, obtainPokemons());
-  closeModal();
+function initialize() {
+  displayPokemons(obtainPokemons());
+  // closeModal();
   // setUpPagination();
-  const data = await getPokemonData(obtainSelectedPokemon)
+  // const data = await getPokemonData(obtainSelectedPokemon)
   // showPokemonsInfo(data);
 }
 
