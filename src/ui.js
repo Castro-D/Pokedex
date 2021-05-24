@@ -89,7 +89,7 @@ export function showPokemonsInfo(data) {
     $frame.addEventListener('click', () => {
       showModal();
       resetPokemonInfo(pokemonImage, abilitiesText, pokemonHeight, pokemonType, pokemonWeight);
-      displayPokemonHeader(modalHeader, pokemon);
+      displayPokemonHeader(modalHeader, data);
       pokemonImage.src = data.sprites.data.sprites.front_default;
       pokemonHeight.innerHTML = `Height: ${data.height}`;
       pokemonType.innerHTML = `Type: ${data.types['0'].type.name}`;
