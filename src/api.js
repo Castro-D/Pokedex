@@ -22,6 +22,5 @@ export async function obtainPokemons(url, page) {
 }
 
 export function getPokemonData(pokemon) {
-  return fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-    .then((response) => response.json());
+  return fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`).then((response) => response.json());
 }
