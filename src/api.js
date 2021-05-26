@@ -15,6 +15,12 @@ export function fetchApiUrls(url, page) {
 export async function obtainPokemons(url, page) {
   const pokemons = [];
   const data = await fetchApiUrls(url, page);
+  if (page === 55) {
+    for (let i = 0; i < 18; i += 1) {
+      pokemons.push(data.results[i].name);
+    }
+    return pokemons;
+  }
   for (let i = 0; i < 20; i += 1) {
     pokemons.push(data.results[i].name);
   }
