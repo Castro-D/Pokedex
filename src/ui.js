@@ -1,7 +1,6 @@
 const $frames = document.querySelectorAll('.frame');
 const POKEMONSPERPAGE = 20;
 const modal = document.querySelector('#my-modal');
-let CURRENTPAGE = 1;
 
 function resetTextNodes() {
   $frames.forEach(($frame) => {
@@ -16,33 +15,48 @@ export function displayPokemons(listOfPokemons) {
   }
 }
 
-function paginationButton(page) {
+export function obtainSelectedPage() {
+  const $activePage = document.querySelector('.pagenumbers button.active');
+  if ($activePage) {
+    const pageNumber = Number($activePage.innerText);
+    const properIndex = pageNumber - 1;
+    return properIndex;
+  }
+  const firstPage = 0;
+  return firstPage;
+}
+
+function paginationButton(page, callbackUpdate) {
+  const FIRSTPAGE = 1;
   const button = document.createElement('button');
   button.innerText = page;
-  if (CURRENTPAGE === page) button.classList.add('active');
+  if (FIRSTPAGE === page) button.classList.add('active');
   button.addEventListener('click', () => {
-    CURRENTPAGE = page;
-    displayPokemons(CURRENTPAGE);
     const currentBtn = document.querySelector('.pagenumbers button.active');
     currentBtn.classList.remove('active');
     button.classList.add('active');
+    callbackUpdate();
   });
 
   return button;
 }
 
-export function obtainSelectedPokemon() {
-  $frames.forEach(($frame) => {
-    $frame.addEventListener('click', (e) => e.target.innerHTML);
-  });
+export function obtainSelectedPokemon(callbackPokemon) {
+  const $pokemonContainer = document.querySelector('.container');
+  $pokemonContainer.onclick = (e) => {
+    const $element = e.target;
+    if ($element.classList.contains('frame')) {
+      callbackPokemon($element.innerText);
+    }
+  };
 }
 
-export function setUpPagination() {
+export function setUpPagination(callbackUpdate) {
   const wrapper = document.querySelector('#pagination');
   const pokemons = 1118;
   const pageCount = Math.ceil(pokemons / POKEMONSPERPAGE);
   for (let i = 1; i < pageCount + 1; i += 1) {
-    const btn = paginationButton(i);
+    const btn = paginationButton(i, callbackUpdate);
     wrapper.appendChild(btn);
   }
 }
@@ -77,7 +91,7 @@ function displayPokemonHeader(modalHeader, pokemon) {
   modalHeader.textContent = pokemon;
 }
 
-export function showPokemonsInfo(data) {
+export function showPokemonsInfo(data, pokemon) {
   const modalHeader = document.querySelector('.modal-header');
   const pokemonImage = document.querySelector('#pokemon-image');
   const pokemonHeight = document.querySelector('#pokemon-height');
@@ -89,8 +103,8 @@ export function showPokemonsInfo(data) {
     $frame.addEventListener('click', () => {
       showModal();
       resetPokemonInfo(pokemonImage, abilitiesText, pokemonHeight, pokemonType, pokemonWeight);
-      displayPokemonHeader(modalHeader, data);
-      pokemonImage.src = data.sprites.data.sprites.front_default;
+      displayPokemonHeader(modalHeader, pokemon);
+      pokemonImage.src = data.sprites.front_default;
       pokemonHeight.innerHTML = `Height: ${data.height}`;
       pokemonType.innerHTML = `Type: ${data.types['0'].type.name}`;
       pokemonWeight.innerHTML = `Weight: ${data.weight}`;

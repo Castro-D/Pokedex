@@ -4,26 +4,27 @@ import {
   obtainSelectedPokemon,
   setUpPagination,
   showPokemonsInfo,
+  obtainSelectedPage,
 } from './ui.js';
 
-import { getPokemonData, obtainPokemons } from './api.js';
+import { getPokemonData, getListOfApiUrl, obtainPokemons } from './api.js';
 
-function getListOfApiUrl() {
-  const listOfApiUrl = [];
-  const apiOffset = 20;
-  const apiOffsetEnd = 1100;
-  for (let i = 0; i <= apiOffsetEnd; i += apiOffset) {
-    listOfApiUrl.push(`https://pokeapi.co/api/v2/pokemon?offset=${i}&limit=20`);
-  }
-  return listOfApiUrl;
+async function updatePokemons() {
+  const urlPokemons = getListOfApiUrl();
+  const pokemons = await obtainPokemons(urlPokemons, obtainSelectedPage());
+  displayPokemons(pokemons);
 }
 
-async function initialize() {
-  displayPokemons(await obtainPokemons());
+async function handlePokemonClicked(pokemon) {
+  const data = await getPokemonData(pokemon);
+  showPokemonsInfo(data, pokemon);
+}
+
+function initialize() {
+  updatePokemons();
   closeModal();
-  setUpPagination();
-  const data = await getPokemonData(obtainSelectedPokemon());
-  showPokemonsInfo(data);
+  setUpPagination(updatePokemons);
+  obtainSelectedPokemon(handlePokemonClicked);
 }
 
 initialize();

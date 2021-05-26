@@ -1,6 +1,4 @@
-const FIRSTPAGE = 0;
-
-function getListOfApiUrl() {
+export function getListOfApiUrl() {
   const listOfApiUrl = [];
   const apiOffset = 20;
   const apiOffsetEnd = 1100;
@@ -14,9 +12,9 @@ export function fetchApiUrls(url, page) {
   return fetch(url[page]).then((response) => response.json());
 }
 
-export async function obtainPokemons() {
+export async function obtainPokemons(url, page) {
   const pokemons = [];
-  const data = await fetchApiUrls(getListOfApiUrl(), FIRSTPAGE);
+  const data = await fetchApiUrls(url, page);
   for (let i = 0; i < 20; i += 1) {
     pokemons.push(data.results[i].name);
   }
