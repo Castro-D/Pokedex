@@ -99,18 +99,14 @@ export function showPokemonsInfo(data, pokemon) {
   const pokemonWeight = document.querySelector('#pokemon-weight');
   const abilitiesText = document.querySelector('#abilities-text');
 
-  $frames.forEach(($frame) => {
-    $frame.addEventListener('click', () => {
-      showModal();
-      resetPokemonInfo(pokemonImage, abilitiesText, pokemonHeight, pokemonType, pokemonWeight);
-      displayPokemonHeader(modalHeader, pokemon);
-      pokemonImage.src = data.sprites.front_default;
-      pokemonHeight.innerHTML = `Height: ${data.height}`;
-      pokemonType.innerHTML = `Type: ${data.types['0'].type.name}`;
-      pokemonWeight.innerHTML = `Weight: ${data.weight}`;
-      data.abilities.forEach((ability) => {
-        abilitiesText.textContent += `${ability.ability.name}, `;
-      });
-    });
+  showModal();
+  resetPokemonInfo(pokemonImage, abilitiesText, pokemonHeight, pokemonType, pokemonWeight);
+  displayPokemonHeader(modalHeader, pokemon);
+  pokemonImage.src = data.sprites.front_default;
+  pokemonHeight.innerHTML = `Height: ${data.height}`;
+  pokemonType.innerHTML = `Type: ${data.types['0'].type.name}`;
+  pokemonWeight.innerHTML = `Weight: ${data.weight}`;
+  data.abilities.forEach((ability) => {
+    abilitiesText.textContent += `${ability.ability.name}, `;
   });
 }
