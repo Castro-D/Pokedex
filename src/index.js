@@ -7,6 +7,8 @@ import {
   obtainSelectedPage,
 } from './ui.js';
 
+import Pokemon from './classes.js';
+
 import { getPokemonData, getListOfApiUrl, obtainPokemons } from './api.js';
 
 async function updatePokemons() {
@@ -17,7 +19,8 @@ async function updatePokemons() {
 
 async function handlePokemonClicked(pokemon) {
   const data = await getPokemonData(pokemon);
-  showPokemonsInfo(data, pokemon);
+  const pokemonObject = new Pokemon(data.sprites.front_default, data.height, data.types['0'].type.name, data.weight, data.abilities);
+  showPokemonsInfo(pokemonObject, pokemon);
 }
 
 function initialize() {
